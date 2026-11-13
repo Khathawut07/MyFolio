@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ติดต่อ | คฑาวุธ ศุภวิเศษ</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- แก้ไขชื่อเรื่องใน <title> และข้อมูลติดต่อด้านล่างได้ตามต้องการ -->
+</head>
+<body>
+
+  <!-- ======================= Navbar ======================= -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">KT</span>
+        <span>คฑาวุธ ศุภวิเศษ</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">หน้าแรก</a>
+        <a href="about.html">เกี่ยวกับ</a>
+        <a href="experience.html">ประสบการณ์</a>
+        <a href="contact.html">ติดต่อ</a>
+      </nav>
+
+      <button class="menu-btn" id="menuBtn" aria-label="เปิดเมนูนำทาง">☰</button>
+      <button class="theme-btn" id="themeToggle" aria-label="เปลี่ยนโหมดสี">🌙</button>
+    </div>
+  </header>
+
+  <!-- ======================= Contact Section ======================= -->
+  <!-- ส่วนติดต่อ: แก้ไขอีเมล เบอร์โทร และลิงก์ GitHub ได้ตรงส่วนด้านล่าง
+       ปุ่มคัดลอกใช้ JavaScript ฟังก์ชัน copyText() -->
+  <main class="container">
+    <section class="section">
+      <h1 class="page-title">ติดต่อ</h1>
+      <p class="page-subtitle">สนใจร่วมงานหรือสอบถามข้อมูล ติดต่อได้ตามช่องทางด้านล่าง</p>
+
+      <div class="contact-card">
+        <!-- อีเมล: แก้ไขข้อความอีเมลและค่าใน onclick ได้ตรงนี้ -->
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div class="contact-info">
+            <h4>อีเมล</h4>
+            <p id="emailText">toonsaa13@gmali.com</p>
+          </div>
+          <button class="btn-copy" onclick="copyText('toonsaa13@gmali.com', 'คัดลอกอีเมลแล้ว')">คัดลอก</button>
+        </div>
+
+        <!-- เบอร์โทร: แก้ไขเบอร์โทรและค่าใน onclick ได้ตรงนี้ -->
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div class="contact-info">
+            <h4>เบอร์โทรศัพท์</h4>
+            <p id="phoneText">0981278835</p>
+          </div>
+          <button class="btn-copy" onclick="copyText('0981278835', 'คัดลอกเบอร์โทรแล้ว')">คัดลอก</button>
+        </div>
+
+        <!-- GitHub: แก้ไขลิงก์และข้อความ -->
+        <div class="contact-item">
+          <div class="contact-icon">🐙</div>
+          <div class="contact-info">
+            <h4>GitHub</h4>
+            <p>[ใส่ลิงก์ GitHub]</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="socials">
+        <a href="#" target="_blank">GitHub</a>
+        <a href="#" target="_blank">Facebook</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================= Footer ======================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 คฑาวุธ ศุภวิเศษ — นักศึกษาแผนกเทคโนโลยีสารสนเทศ ปวส. 2/2 วิทยาลัยอาชีวศึกษาร้อยเอ็ด</p>
+    </div>
+  </footer>
+
+  <!-- ======================= JavaScript ======================= -->
+  <script>
+    /* ฟังก์ชันคัดลอกข้อความไปยัง Clipboard (ใช้งานได้ดีบน http://localhost หรือ https) */
+    function copyText(text, message) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert(message);
+      });
+    }
+
+    /* ไฮไลต์เมนูตรงกับหน้าที่เปิดอยู่ */
+    const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      if (link.getAttribute('href') === currentFile) {
+        link.classList.add('active');
+      }
+    });
+
+    /* เปิดปิดเมนูมือถือ (Hamburger Menu) */
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    menuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+      });
+    });
+    /* โหมดสว่าง/มืด */
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlElement = document.documentElement;
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+      htmlElement.setAttribute('data-theme', 'dark');
+      themeToggle.textContent = '☀️';
+    } else {
+      htmlElement.setAttribute('data-theme', 'light');
+      themeToggle.textContent = '🌙';
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = htmlElement.getAttribute('data-theme');
+      if (currentTheme === 'dark') {
+        htmlElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+        themeToggle.textContent = '🌙';
+      } else {
+        htmlElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        themeToggle.textContent = '☀️';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ประสบการณ์และผลงาน | คฑาวุธ ศุภวิเศษ</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- แก้ไขชื่อเรื่องใน <title> และเนื้อหาด้านล่างได้ตามต้องการ -->
+</head>
+<body>
+
+  <!-- ======================= Navbar ======================= -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">KT</span>
+        <span>คฑาวุธ ศุภวิเศษ</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">หน้าแรก</a>
+        <a href="about.html">เกี่ยวกับ</a>
+        <a href="experience.html">ประสบการณ์</a>
+        <a href="contact.html">ติดต่อ</a>
+      </nav>
+
+      <button class="menu-btn" id="menuBtn" aria-label="เปิดเมนูนำทาง">☰</button>
+      <button class="theme-btn" id="themeToggle" aria-label="เปลี่ยนโหมดสี">🌙</button>
+    </div>
+  </header>
+
+  <!-- ======================= Experience Section ======================= -->
+  <!-- ส่วนประสบการณ์ฝึกงานและผลงาน: แก้ไขชื่อหน่วยงานและหน้าที่ได้ตรงส่วนด้านล่าง -->
+  <main class="container">
+    <section class="section">
+      <h1 class="page-title">ประสบการณ์และผลงาน</h1>
+      <p class="page-subtitle">ประสบการณ์ฝึกงานและโปรเจกต์จบการศึกษาระดับ ปวส. 2</p>
+
+      <!-- ส่วนที่ 1: ประสบการณ์ฝึกงาน -->
+      <div class="exp-section">
+        <h2>ประสบการณ์ฝึกงาน</h2>
+        <div class="exp-card">
+          <h3>นักศึกษาฝึกงาน — แผนกเทคโนโลยีสารสนเทศ</h3>
+          <span class="meta">ศาลจังหวัดร้อยเอ็ด · ฝึกงานประจำหลักสูตร ปวส. 2/2</span>
+          <ul>
+            <li>งาน Helpdesk แก้ไขปัญหาคอมพิวเตอร์และเครื่องพิมพ์ให้ผู้ใช้งานในหน่วยงาน</li>
+            <li>จัดการไฟล์ข้อมูลในระบบ e-Filing ของหน่วยงาน</li>
+            <li>ประสานงานเอกสารและดูแลอุปกรณ์โสตทัศนูปกรณ์ในห้องประชุม</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ส่วนที่ 2: ผลงานโปรเจกต์จบ -->
+      <div class="exp-section">
+        <h2>ผลงานโปรเจกต์จบ ปวส. 2</h2>
+        <div class="projects-grid">
+          <!-- โปรเจกต์ Card: เปลี่ยนรูปภาพโดยแทนที่ข้อความใน .project-img ด้วย <img src="..." alt=""> -->
+          <div class="project-card">
+            <div class="project-img">ตัวอย่างระบบจัดการข้อมูล</div>
+            <div class="project-body">
+              <h3>ระบบจัดการข้อมูลแบบ CRUD</h3>
+              <span class="tech">HTML · CSS · JavaScript · PHP · MySQL</span>
+              <p>ระบบจัดการข้อมูลที่สามารถเพิ่ม แก้ไข ลบ และค้นหาข้อมูลได้ พร้อมระบบแบ่งสิทธิ์การใช้งานแยกระหว่างผู้ดูแลระบบและผู้ใช้ทั่วไป เหมาะสำหรับใช้เป็นโปรเจกต์จบการศึกษาระดับ ปวส.</p>
+              <div class="project-actions">
+                <a href="#" class="btn-preview">ดูตัวอย่าง</a>
+                <a href="#" class="btn-code">ดูโค้ด</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================= Footer ======================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 คฑาวุธ ศุภวิเศษ — นักศึกษาแผนกเทคโนโลยีสารสนเทศ ปวส. 2/2 วิทยาลัยอาชีวศึกษาร้อยเอ็ด</p>
+    </div>
+  </footer>
+
+  <!-- ======================= JavaScript ======================= -->
+  <script>
+    const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      if (link.getAttribute('href') === currentFile) {
+        link.classList.add('active');
+      }
+    });
+
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    menuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+      });
+    });
+    /* โหมดสว่าง/มืด */
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlElement = document.documentElement;
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+      htmlElement.setAttribute('data-theme', 'dark');
+      themeToggle.textContent = '☀️';
+    } else {
+      htmlElement.setAttribute('data-theme', 'light');
+      themeToggle.textContent = '🌙';
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = htmlElement.getAttribute('data-theme');
+      if (currentTheme === 'dark') {
+        htmlElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+        themeToggle.textContent = '🌙';
+      } else {
+        htmlElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        themeToggle.textContent = '☀️';
+      }
+    });
+  </script>
+</body>
+</html>

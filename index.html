@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>คฑาวุธ ศุภวิเศษ | Portfolio นักศึกษา IT ปวส. 2</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- แก้ไขชื่อเรื่องใน <title> หรือข้อความด้านล่างได้ตามต้องการ -->
+</head>
+<body>
+
+  <!-- ======================= Navbar ======================= -->
+  <!-- แถบเมนูด้านบน: แก้ไขข้อความลิงก์หรือเพิ่มหน้าได้ที่ <a href="..."> -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">KT</span>
+        <span>คฑาวุธ ศุภวิเศษ</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">หน้าแรก</a>
+        <a href="about.html">เกี่ยวกับ</a>
+        <a href="experience.html">ประสบการณ์</a>
+        <a href="contact.html">ติดต่อ</a>
+      </nav>
+
+      <button class="menu-btn" id="menuBtn" aria-label="เปิดเมนูนำทาง">☰</button>
+      <button class="theme-btn" id="themeToggle" aria-label="เปลี่ยนโหมดสี">🌙</button>
+    </div>
+  </header>
+
+  <!-- ======================= Hero Section ======================= -->
+  <!-- ส่วนแนะนำตัว แบ่งซ้าย-ขวา: ข้อความอยู่ฝั่งซ้าย, รูปภาพอยู่ฝั่งขวา
+       รูปภาพใช้ images/profile.jpg (ภาพแนวนอน 16:9, ตัวแบบอยู่ฝั่งขวา, พื้นที่ด้านซ้ายโล่ง)
+       ใช้ object-position: right center เพื่อไม่ให้ข้อความบังใบหน้าหรือตัวแบบ -->
+  <main class="container">
+    <section class="hero">
+      <div class="hero-content">
+        <h1>นายคฑาวุธ ศุภวิเศษ</h1>
+        <p>นักศึกษาชั้น ปวส. 2/2 แผนกวิชาเทคโนโลยีสารสนเทศ วิทยาลัยอาชีวศึกษาร้อยเอ็ด</p>
+        <p>สนใจด้านงานดูแลระบบ IT Support และการพัฒนาระบบเว็บแอปพลิเคชัน</p>
+        <div class="btn-group">
+          <a href="experience.html" class="btn btn-primary">ดูประสบการณ์และผลงาน</a>
+          <a href="#" class="btn btn-outline">ดาวน์โหลด Resume</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <!-- เปลี่ยนรูปภาพได้โดยแก้ไข src ด้านล่าง -->
+ <img src="images/imagesprofile.jpg.png" alt="ภาพส่วนตัวของคฑาวุธ ศุภวิเศษ">
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================= Footer ======================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 คฑาวุธ ศุภวิเศษ — นักศึกษาแผนกเทคโนโลยีสารสนเทศ ปวส. 2/2 วิทยาลัยอาชีวศึกษาร้อยเอ็ด</p>
+    </div>
+  </footer>
+
+  <!-- ======================= JavaScript ======================= -->
+  <script>
+    /* ไฮไลต์เมนูตรงกับหน้าที่เปิดอยู่
+       ถ้าเปิดไฟล์ตรงจากเครื่อง (file://) ให้ใส่ class="active" เองใน HTML แทนได้ */
+    const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      if (link.getAttribute('href') === currentFile) {
+        link.classList.add('active');
+      }
+    });
+
+    /* เปิดปิดเมนูมือถือ (Hamburger Menu) */
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    menuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    /* ปิดเมนูอัตโนมัติเมื่อกดลิงก์ในมือถือ */
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+      });
+    });
+    /* โหมดสว่าง/มืด */
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlElement = document.documentElement;
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+      htmlElement.setAttribute('data-theme', 'dark');
+      themeToggle.textContent = '☀️';
+    } else {
+      htmlElement.setAttribute('data-theme', 'light');
+      themeToggle.textContent = '🌙';
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = htmlElement.getAttribute('data-theme');
+      if (currentTheme === 'dark') {
+        htmlElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+        themeToggle.textContent = '🌙';
+      } else {
+        htmlElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        themeToggle.textContent = '☀️';
+      }
+    });
+  </script>
+</body>
+</html>

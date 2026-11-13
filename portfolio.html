@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>คฑาวุธ ศุภวิเศษ | Portfolio นักศึกษา IT ปวส. 2</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ปรับให้เลื่อนส่วนต่างๆ นุ่มนวลเมื่อกดลิงก์ใน Navbar */
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Prompt', sans-serif;
+      background-color: #f8fafc;
+      color: #1f2937;
+    }
+    /* สีเน้นหลักของเว็บ: สีน้ำเงินเข้ม / สีฟ้า */
+    :root {
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --dark: #111827;
+      --gray: #6b7280;
+    }
+    .accent { color: var(--accent); }
+    .bg-accent { background-color: var(--accent); }
+    .hover-accent:hover { background-color: var(--accent-hover); }
+    .border-accent { border-color: var(--accent); }
+    .shadow-accent { box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.15); }
+    /* แถบเลื่อนส่วนที่เลือกใน Navbar */
+    .nav-link.active {
+      color: var(--accent);
+    }
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--accent);
+    }
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background-color: #ffffff;
+      border-top: 1px solid #e5e7eb;
+      padding: 1rem;
+      gap: 0.5rem;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    }
+    .mobile-menu.open {
+      display: flex;
+    }
+    /* Toast แจ้งเตือนเมื่อคัดลอกข้อความแล้ว */
+    #toast {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #111827;
+      color: #ffffff;
+      padding: 0.6rem 1rem;
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 50;
+    }
+    #toast.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- ======================= Navbar ======================= -->
+  <!-- ตรงนี้คือแถบนำทางด้านบน คลิกแล้วจะเลื่อนไปยังส่วนต่างๆ ของหน้าเว็บ -->
+  <nav class="fixed top-0 left-0 right-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <a href="#home" class="flex items-center gap-2 font-bold text-gray-900 text-lg">
+          <span class="w-6 h-6 rounded bg-blue-600 flex items-center justify-center text-white text-xs">KT</span>
+          <span>คฑาวุธ ศุภวิเศษ</span>
+        </a>
+
+        <!-- ลิงก์เมนูหลัก (แสดงบนจอคอมพิวเตอร์) -->
+        <div class="hidden md:flex items-center gap-6 ml-10">
+          <a href="#home" class="nav-link text-sm font-medium text-gray-700 hover:text-blue-600 relative">หน้าหลัก</a>
+          <a href="#skills" class="nav-link text-sm font-medium text-gray-700 hover:text-blue-600 relative">ทักษะ</a>
+          <a href="#internship" class="nav-link text-sm font-medium text-gray-700 hover:text-blue-600 relative">ฝึกงาน</a>
+          <a href="#projects" class="nav-link text-sm font-medium text-gray-700 hover:text-blue-600 relative">ผลงาน</a>
+          <a href="#contact" class="nav-link text-sm font-medium text-gray-700 hover:text-blue-600 relative">ติดต่อ</a>
+        </div>
+
+        <!-- ปุ่มเมนูมือถือ -->
+        <button id="mobileMenuBtn" class="md:hidden text-gray-700 hover:text-blue-600">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- เมนูมือถือ (เปิดปิดด้วย JavaScript) -->
+    <div id="mobileMenu" class="mobile-menu">
+      <a href="#home" class="nav-link block py-2 px-3 rounded text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600" onclick="closeMobileMenu()">หน้าหลัก</a>
+      <a href="#skills" class="nav-link block py-2 px-3 rounded text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600" onclick="closeMobileMenu()">ทักษะ</a>
+      <a href="#internship" class="nav-link block py-2 px-3 rounded text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600" onclick="closeMobileMenu()">ฝึกงาน</a>
+      <a href="#projects" class="nav-link block py-2 px-3 rounded text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600" onclick="closeMobileMenu()">ผลงาน</a>
+      <a href="#contact" class="nav-link block py-2 px-3 rounded text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600" onclick="closeMobileMenu()">ติดต่อ</a>
+    </div>
+  </nav>
+
+  <!-- ระยะห่างด้านบนให้เนื้อหาไม่ถูก Navbar บัง -->
+  <div class="pt-16"></div>
+
+  <!-- ======================= Hero Section ======================= -->
+  <!-- ส่วนแนะนำตัว แก้ไขข้อความได้ตรงส่วนตัวหนังสือด้านล่าง -->
+  <section id="home" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 text-center">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-sm font-medium border border-blue-100 mb-6">
+      นักศึกษาแผนกเทคโนโลยีสารสนเทศ
+    </div>
+    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 tracking-tight mb-4">
+      นายคฑาวุธ ศุภวิเศษ
+    </h1>
+    <p class="text-lg sm:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+      ชั้น ปวส. ปีที่ 2 แผนกวิชาเทคโนโลยีสารสนเทศ วิทยาลัยอาชีวศึกษาร้อยเอ็ด<br>
+      สนใจด้านการพัฒนาระบบเว็บแอปพลิเคชันและงานดูแลระบบ IT Support
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="#projects" class="bg-accent hover-accent text-white px-6 py-3 rounded-lg font-medium text-sm hover:shadow-accent transition">ดูผลงานทั้งหมด</a>
+      <a href="#" class="bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 px-6 py-3 rounded-lg font-medium text-sm hover:shadow-sm transition">ดาวน์โหลด Resume</a>
+    </div>
+  </section>
+
+  <!-- ======================= Skills Section ======================= -->
+  <!-- ส่วนทักษะความสามารถ แก้ไขรายการทักษะในแต่ละหมวดได้ตรงนี้ -->
+  <section id="skills" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl font-bold text-gray-900 mb-3">ทักษะความสามารถ</h2>
+      <p class="text-gray-600">เครื่องมือและทักษะที่ใช้งานได้จริง แบ่งเป็นหมวดหมู่เพื่ออ่านง่าย</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <!-- หมวดที่ 1: Programming & Web -->
+      <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+          Programming &amp; Web
+        </h3>
+        <ul class="space-y-2 text-sm text-gray-700">
+          <li class="flex items-center gap-2"><span class="text-blue-600">●</span> HTML</li>
+          <li class="flex items-center gap-2"><span class="text-blue-600">●</span> CSS</li>
+          <li class="flex items-center gap-2"><span class="text-blue-600">●</span> JavaScript</li>
+          <li class="flex items-center gap-2"><span class="text-blue-600">●</span> PHP</li>
+          <li class="flex items-center gap-2"><span class="text-blue-600">●</span> MySQL</li>
+        </ul>
+      </div>
+
+      <!-- หมวดที่ 2: IT Support & Tools -->
+      <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm">
+        <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+          <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          IT Support &amp; Tools
+        </h3>
+        <ul class="space-y-2 text-sm text-gray-700">
+          <li class="flex items-center gap-2"><span class="text-blue-600">●</span> การประกอบและซ่อมบำรุงคอมพิวเตอร์</li>
+          <li class="flex items-center gap-2"><span class="text-blue-600">●</span> การตั้งค่าระบบเครือข่ายเบื้องต้น</li>
+          <li class="flex items-center gap-2"><span class="text-blue-600">●</span> Git</li>
+          <li class="flex items-center gap-2"><span class="text-blue-600">●</span> MS Office</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= Internship Section ======================= -->
+  <!-- ส่วนประสบการณ์ฝึกงาน แก้ไขชื่อหน่วยงานและหน้าที่ได้ตรงนี้ -->
+  <section id="internship" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28 bg-gray-50">
+    <div class="text-center mb-12">
+      <h2 class="text-3xl font-bold text-gray-900 mb-3">ประสบการณ์ฝึกงาน</h2>
+      <p class="text-gray-600">ฝึกงานเพื่อเรียนรู้การทำงานจริงในหน่วยงานภาครัฐ</p>
+    </div>
+
+    <div class="max-w-3xl mx-auto bg-white p-8 rounded-xl border border-gray-100 shadow-sm">
+      <div class="flex items-start gap-4 mb-6">
+        <div class="w-10 h-10 rounded bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-lg">
+          🏢
+        </div>
+        <div>
+          <p class="font-semibold text-gray-900">[ใส่ชื่อหน่วยงาน เช่น ส่วนเทคโนโลยีสารสนเทศ ศาลจังหวัดร้อยเอ็ด]</p>
+          <p class="text-sm text-gray-500">ฝึกงานประจำหลักสูตร ปวส. ปีที่ 2</p>
+        </div>
+      </div>
+
+      <h4 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">หน้าที่ที่รับผิดชอบ</h4>
+      <ul class="space-y-3 text-sm text-gray-700">
+        <li class="flex items-start gap-2">
+          <span class="text-blue-600 mt-0.5">✓</span>
+          แก้ไขปัญหาคอมพิวเตอร์และอุปกรณ์สำนักงานให้ผู้ใช้งาน
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-blue-600 mt-0.5">✓</span>
+          ติดตั้งและอัปเดตระบบปฏิบัติการและซอฟต์แวร์เบื้องต้น
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-blue-600 mt-0.5">✓</span>
+          จัดการเอกสารและระบบข้อมูลของหน่วยงาน
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-blue-600 mt-0.5">✓</span>
+          ดูแลอุปกรณ์โสตทัศนูปกรณ์และเครื่องเสียงในห้องประชุม
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ======================= Projects Section ======================= -->
+  <!-- ส่วนผลงานและโปรเจกต์ แก้ไขรูปภาพ ชื่อโปรเจกต์ เทคโนโลยี และคำอธิบายได้ตรงนี้ -->
+  <section id="projects" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl font-bold text-gray-900 mb-3">ผลงานและโปรเจกต์</h2>
+      <p class="text-gray-600">ผลงานที่เคยทำทั้งในชั้นเรียนและโปรเจกต์จบการศึกษา</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- โปรเจกต์ที่ 1 -->
+      <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition group">
+        <div class="h-48 bg-gray-200 relative">
+          <!-- ตรงนี้เป็นรูปภาพตัวอย่าง ให้เปลี่ยนเป็นรูปจริงของโปรเจกต์ได้ -->
+          <img src="https://placehold.co/600x400?text=Project+1" alt="ตัวอย่างโปรเจกต์ 1" class="w-full h-full object-cover">
+          <div class="absolute top-3 left-3 bg-blue-600 text-white text-xs px-2 py-1 rounded">Web System</div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-bold text-gray-900 text-lg mb-1">ระบบจัดการข้อมูลนักศึกษา</h3>
+          <p class="text-xs text-blue-600 font-medium mb-3">PHP + MySQL</p>
+          <p class="text-sm text-gray-600 mb-4 line-clamp-2">ระบบจัดการข้อมูลแบบ CRUD สำหรับโปรเจกต์จบ ปวส. 2 เพิ่ม แก้ไข ลบ และค้นหาข้อมูลนักศึกษาได้</p>
+          <div class="flex gap-2">
+            <a href="#" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-medium py-2 rounded text-center transition">ดูตัวอย่าง</a>
+            <a href="#" class="flex-1 bg-accent hover-accent text-white text-xs font-medium py-2 rounded text-center transition">GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- โปรเจกต์ที่ 2 -->
+      <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition group">
+        <div class="h-48 bg-gray-200 relative">
+          <img src="https://placehold.co/600x400?text=Project+2" alt="ตัวอย่างโปรเจกต์ 2" class="w-full h-full object-cover">
+          <div class="absolute top-3 left-3 bg-blue-600 text-white text-xs px-2 py-1 rounded">Website</div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-bold text-gray-900 text-lg mb-1">เว็บไซต์แนะนำหน่วยงาน</h3>
+          <p class="text-xs text-blue-600 font-medium mb-3">HTML, CSS, JavaScript</p>
+          <p class="text-sm text-gray-600 mb-4 line-clamp-2">เว็บไซต์แนะนำหน่วยงาน แสดงข้อมูลและติดต่อได้ผ่านฟอร์มบนเว็บ รองรับการแสดงผลบนมือถือ</p>
+          <div class="flex gap-2">
+            <a href="#" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-medium py-2 rounded text-center transition">ดูตัวอย่าง</a>
+            <a href="#" class="flex-1 bg-accent hover-accent text-white text-xs font-medium py-2 rounded text-center transition">GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- โปรเจกต์ที่ 3 -->
+      <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition group">
+        <div class="h-48 bg-gray-200 relative">
+          <img src="https://placehold.co/600x400?text=Project+3" alt="ตัวอย่างโปรเจกต์ 3" class="w-full h-full object-cover">
+          <div class="absolute top-3 left-3 bg-blue-600 text-white text-xs px-2 py-1 rounded">Web System</div>
+        </div>
+        <div class="p-5">
+          <h3 class="font-bold text-gray-900 text-lg mb-1">ระบบแจ้งซ่อมคอมพิวเตอร์</h3>
+          <p class="text-xs text-blue-600 font-medium mb-3">PHP + MySQL</p>
+          <p class="text-sm text-gray-600 mb-4 line-clamp-2">ระบบแจ้งซ่อมและติดตามสถานะการซ่อมบำรุงคอมพิวเตอร์ภายในหน่วยงาน ลดการติดตามงานผ่านกระดาษ</p>
+          <div class="flex gap-2">
+            <a href="#" class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs font-medium py-2 rounded text-center transition">ดูตัวอย่าง</a>
+            <a href="#" class="flex-1 bg-accent hover-accent text-white text-xs font-medium py-2 rounded text-center transition">GitHub</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= Contact Section ======================= -->
+  <!-- ส่วนติดต่อ แก้ไขอีเมลและเบอร์โทรได้ตรงนี้ -->
+  <section id="contact" class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl font-bold text-gray-900 mb-3">ติดต่อ</h2>
+      <p class="text-gray-600">สนใจร่วมงานหรือสอบถามข้อมูลเพิ่มเติม ติดต่อได้ตามช่องทางด้านล่าง</p>
+    </div>
+
+    <div class="max-w-md mx-auto grid grid-cols-1 gap-6">
+      <!-- อีเมล -->
+      <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4">
+        <div class="w-12 h-12 rounded bg-blue-50 flex items-center justify-center text-blue-600 font-bold">
+          ✉️
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-gray-900">อีเมล</p>
+          <div class="flex items-center gap-2 mt-1">
+            <span id="emailText" class="text-sm text-gray-600 break-all">[ใส่อีเมล]</span>
+            <button onclick="copyToClipboard('[ใส่อีเมล]', 'คัดลอกอีเมลแล้ว')" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded transition">คัดลอก</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- เบอร์โทร -->
+      <div class="bg-white p-6 rounded-xl border border-gray-100 shadow-sm flex items-center gap-4">
+        <div class="w-12 h-12 rounded bg-blue-50 flex items-center justify-center text-blue-600 font-bold">
+          📞
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-gray-900">เบอร์โทรศัพท์</p>
+          <div class="flex items-center gap-2 mt-1">
+            <span id="phoneText" class="text-sm text-gray-600 break-all">[ใส่เบอร์โทร]</span>
+            <button onclick="copyToClipboard('[ใส่เบอร์โทร]', 'คัดลอกเบอร์โทรแล้ว')" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 rounded transition">คัดลอก</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= Footer ======================= -->
+  <footer class="border-t border-gray-100 bg-white py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+      <p>© 2025 คฑาวุธ ศุภวิเศษ — นักศึกษาแผนกเทคโนโลยีสารสนเทศ ปวส. 2 วิทยาลัยอาชีวศึกษาร้อยเอ็ด</p>
+      <p>สร้างด้วย HTML, Tailwind CSS และ JavaScript</p>
+    </div>
+  </footer>
+
+  <!-- Toast แจ้งเตือนคัดลอก -->
+  <div id="toast">คัดลอกแล้ว</div>
+
+  <!-- ======================= JavaScript ======================= -->
+  <script>
+    /* ===== Navbar: เปิดปิดเมนูมือถือ ===== */
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+    });
+
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('open');
+    }
+
+    /* == navbar highlight ตามส่วนที่กำลังดู ===== */
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('section[id]');
+
+    function setActiveLink() {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (pageYOffset >= sectionTop - 120) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', setActiveLink);
+    window.addEventListener('load', setActiveLink);
+
+    /* == คัดลอกข้อความไปยังคลิปบอร์ด ===== */
+    function copyToClipboard(text, message) {
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => {
+          toast.classList.remove('show');
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>

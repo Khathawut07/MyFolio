@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>เกี่ยวกับตัวผม | คฑาวุธ ศุภวิเศษ</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- แก้ไขชื่อเรื่องใน <title> และเนื้อหาด้านล่างได้ตามต้องการ -->
+</head>
+<body>
+
+  <!-- ======================= Navbar ======================= -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand">
+        <span class="brand-mark">KT</span>
+        <span>คฑาวุธ ศุภวิเศษ</span>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html">หน้าแรก</a>
+        <a href="about.html">เกี่ยวกับ</a>
+        <a href="experience.html">ประสบการณ์</a>
+        <a href="contact.html">ติดต่อ</a>
+      </nav>
+
+      <button class="menu-btn" id="menuBtn" aria-label="เปิดเมนูนำทาง">☰</button>
+      <button class="theme-btn" id="themeToggle" aria-label="เปลี่ยนโหมดสี">🌙</button>
+    </div>
+  </header>
+
+  <!-- ======================= About Section ======================= -->
+  <!-- ส่วนเกี่ยวกับตัวผม: แก้ไขชื่อเล่น ชั้น แผนก และสถานศึกษาได้ตรงส่วนด้านล่าง
+       รูปภาพใช้ images/profile.jpg ในกรอบสี่เหลี่ยมผืนผ้ามุมมน
+       ใช้ object-fit: cover; object-position: right center; เพื่อให้เห็นหน้าชัดเจนไม่โดนตัดขอบ -->
+  <main class="container">
+    <section class="section">
+      <h1 class="page-title">เกี่ยวกับตัวผม</h1>
+      <p class="page-subtitle">ประวัติการศึกษาและทักษะที่ใช้งานได้จริง</p>
+
+      <div class="profile-image">
+        <!-- เปลี่ยนรูปภาพได้โดยแก้ไข src ด้านล่าง -->
+ <img src="images/imagesprofile.jpg.png" alt="ภาพส่วนตัวของคฑาวุธ ศุภวิเศษ">
+      </div>
+
+      <div class="edu-card">
+        <h3>🎓 การศึกษา</h3>
+        <p><strong>ชื่อ-นามสกุล:</strong> นายคฑาวุธ ศุภวิเศษ (ชื่อเล่น: การ์ตูน)</p>
+        <p><strong>ระดับชั้น:</strong> ปวส. 2/2</p>
+        <p><strong>แผนกวิชา:</strong> เทคโนโลยีสารสนเทศ</p>
+        <p><strong>สถานศึกษา:</strong> วิทยาลัยอาชีวศึกษาร้อยเอ็ด</p>
+      </div>
+
+      <div class="skill-group">
+        <h3>💻 ด้านการเขียนโปรแกรมและฐานข้อมูล</h3>
+        <ul>
+          <li>HTML</li>
+          <li>CSS</li>
+          <li>JavaScript</li>
+          <li>PHP</li>
+          <li>MySQL</li>
+        </ul>
+      </div>
+
+      <div class="skill-group">
+        <h3>🔧 ด้าน IT Support และระบบเครือข่าย</h3>
+        <ul>
+          <li>การประกอบและซ่อมบำรุงคอมพิวเตอร์</li>
+          <li>การตั้งค่าระบบเครือข่ายเบื้องต้น</li>
+          <li>Git</li>
+          <li>MS Office</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================= Footer ======================= -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 คฑาวุธ ศุภวิเศษ — นักศึกษาแผนกเทคโนโลยีสารสนเทศ ปวส. 2/2 วิทยาลัยอาชีวศึกษาร้อยเอ็ด</p>
+    </div>
+  </footer>
+
+  <!-- ======================= JavaScript ======================= -->
+  <script>
+    const currentFile = window.location.pathname.split('/').pop() || 'index.html';
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      if (link.getAttribute('href') === currentFile) {
+        link.classList.add('active');
+      }
+    });
+
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.getElementById('navLinks');
+    menuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+      });
+    });
+    /* โหมดสว่าง/มืด */
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlElement = document.documentElement;
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+      htmlElement.setAttribute('data-theme', 'dark');
+      themeToggle.textContent = '☀️';
+    } else {
+      htmlElement.setAttribute('data-theme', 'light');
+      themeToggle.textContent = '🌙';
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = htmlElement.getAttribute('data-theme');
+      if (currentTheme === 'dark') {
+        htmlElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light');
+        themeToggle.textContent = '🌙';
+      } else {
+        htmlElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark');
+        themeToggle.textContent = '☀️';
+      }
+    });
+  </script>
+</body>
+</html>
